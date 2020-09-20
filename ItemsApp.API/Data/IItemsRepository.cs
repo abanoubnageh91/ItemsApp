@@ -14,7 +14,6 @@ namespace ItemsApp.API.Data
         Task<PagedList<Item>> GetMaxPricesForItems(ItemParams itemParams);
         Task<int> GetMaxPriceForItem(string itemName);
         Task<Item> GetItem(int id);
-        Task<Item> CreateItem(Item item);
 
         Task<List<string>> GetItemNames();
         

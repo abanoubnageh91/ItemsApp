@@ -35,14 +35,6 @@ namespace ItemsApp.API.Data
             return await dataContext.SaveChangesAsync() > 0;
         }
 
-        public async Task<Item> CreateItem(Item item)
-        {
-            await dataContext.Items.AddAsync(item);
-            await dataContext.SaveChangesAsync();
-
-            return item;
-        }
-
         public async Task<Item> GetItem(int id)
         {
             return await dataContext.Items.FirstOrDefaultAsync(p => p.Id == id);
