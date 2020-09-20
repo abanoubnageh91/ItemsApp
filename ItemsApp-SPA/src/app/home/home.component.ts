@@ -120,6 +120,7 @@ export class HomeComponent implements OnInit {
     }, error => {
       this.alertifyService.error(error);
     }, () => {
+      this.pagination.currentPage = 1;
       this.getItems();
       this.getItemNames();
     });
@@ -137,6 +138,7 @@ export class HomeComponent implements OnInit {
         }, error => {
           this.alertifyService.error(error);
         }, () => {
+          this.pagination.currentPage = 1;
           this.getItems();
         });
       }
@@ -147,29 +149,12 @@ export class HomeComponent implements OnInit {
         }, error => {
           this.alertifyService.error(error);
         }, () => {
+          this.pagination.currentPage = 1;
           this.getItems();
           this.getItemNames();
         });
       }
     }
-  }
-
-  search(term: string): void {
-    // if (term.trim()) {
-    //   this.courses = this.courses.filter(c => {
-    //     return c.title.toLocaleLowerCase().includes(term.toLocaleLowerCase());
-    //   })
-    // } else {
-    //   this.getCourses();
-    // }
-  }
-
-
-  editItem(id: number) {
-    // this.addEditCourse.resetForm();
-    // this.isEditMode = true;
-    // this.courseListService.getCourse(id)
-    //   .subscribe(course => this.selectedCourse = course);
   }
 
 
