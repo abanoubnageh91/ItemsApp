@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ItemsApp.API.Helpers;
 using ItemsApp.API.Dtos;
+using System.Net;
+using Microsoft.AspNetCore.Http;
 
 namespace ItemsApp.Tests
 {
@@ -19,17 +21,21 @@ namespace ItemsApp.Tests
         public ItemsTest()
         {
             var mockRepo = new Mock<IItemsRepository>();
-            
-            var mockMapper = new Mock<IMapper>();
 
-            controller = new ItemsController(mockRepo.Object, mockMapper.Object);
+            var myProfile = new AutomapperProfiles();
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
+            IMapper mapper = new Mapper(configuration);
 
-            var httpCtxStub = new Mock<Microsoft.AspNetCore.Http.HttpContext>();
+            controller = new ItemsController(mockRepo.Object, mapper);
 
-            var controllerCtx = new ControllerContext();
-            controllerCtx.HttpContext = httpCtxStub.Object;
+            var response = new Mock<HttpResponse>();
+            response.Setup(r => r.AddPagination(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()));
 
-            controller.ControllerContext = controllerCtx;
+            var httpContext = new Mock<HttpContext>();
+            httpContext.Setup(a => a.Response).Returns(response.Object);
+
+            controller.ControllerContext.HttpContext = httpContext.Object;
+
         }
         
         [Fact]
@@ -110,31 +116,13 @@ namespace ItemsApp.Tests
             };
 
             // Act
-            var createdResponse = await controller.CreateItem(item);
+            var createdResponse = await controller.CreateItem(item) as OkObjectResult;
 
             // Assert
             Assert.IsType<OkObjectResult>(createdResponse);
+            Assert.Equal((int)HttpStatusCode.OK, createdResponse.StatusCode);
         }
 
-
-        [Fact]
-        public async void CreateItem_ReturnCreatedItem()
-        {
-            // Arrange
-            var item = new ItemForCreationDto()
-            {
-                ItemName = "Item 89",
-                Cost = 12
-            };
-
-            // Act
-            var createdResponse = await controller.CreateItem(item) as OkObjectResult;
-            var createdItem = createdResponse.Value as ItemToReturnDto;
-
-            // Assert
-            Assert.IsType<ItemToReturnDto>(createdItem);
-            Assert.Equal("Item 89", createdItem.ItemName);
-        }
 
         [Fact]
         public async void DeleteItem_ReturnOk()

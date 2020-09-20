@@ -31,10 +31,12 @@ namespace ItemsApp.API.Controllers
         {
             var itemToCreated = mapper.Map<Item>(itemForCreationDto);
 
-            var createdItem = await itemRepository.CreateItem(itemToCreated);
+            itemRepository.Add(itemToCreated);
 
-            var itemToReturn = mapper.Map<ItemToReturnDto>(createdItem);
-            return Ok(itemToReturn);
+            if (await itemRepository.SaveAll())
+                return Ok();
+
+            return BadRequest("Failed to add the item.");
         }
 
         [HttpDelete("{id}")]
@@ -47,7 +49,7 @@ namespace ItemsApp.API.Controllers
             if (await itemRepository.SaveAll())
                 return Ok();
 
-            return BadRequest("Failed to delete the photo.");
+            return BadRequest("Failed to delete the item.");
         }
 
         [HttpPut("{id}")]

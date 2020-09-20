@@ -8,7 +8,7 @@ namespace ItemsApp.API.Data
     public interface IItemsRepository
     {
         void Add<T> (T entity) where T:class;
-         void Delete<T> (T entity) where T:class;
+        void Delete<T> (T entity) where T:class;
         Task<bool> SaveAll();
         Task<PagedList<Item>> GetAllItems(ItemParams itemParams);
         Task<PagedList<Item>> GetMaxPricesForItems(ItemParams itemParams);
