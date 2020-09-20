@@ -49,30 +49,30 @@ namespace ItemsApp.Tests
             Assert.IsType<OkObjectResult>(result);
         }
 
-        [Fact]
-        public async void GetItems_ReturnOk()
-        {
-            var itemParams = new ItemParams { PageNumber = 1, PageSize = 5 };
-            // Act
+        //[Fact]
+        //public async void GetItems_ReturnOk()
+        //{
+        //    var itemParams = new ItemParams { PageNumber = 1, PageSize = 5 };
+        //    // Act
             
-            var result = await controller.GetItems(itemParams);
+        //    var result = await controller.GetItems(itemParams);
 
-            // Assert
-            Assert.IsType<OkObjectResult>(result);
-        }
+        //    // Assert
+        //    Assert.IsType<OkObjectResult>(result);
+        //}
 
-        [Fact]
-        public async void GetMaxPricesForItems_ReturnOk()
-        {
+        //[Fact]
+        //public async void GetMaxPricesForItems_ReturnOk()
+        //{
 
-            var itemParams = new ItemParams { PageNumber = 1, PageSize = 5 };
+        //    var itemParams = new ItemParams { PageNumber = 1, PageSize = 5 };
 
-            // Act
-            var result = await controller.GetMaxPricesForItems(itemParams);
+        //    // Act
+        //    var result = await controller.GetMaxPricesForItems(itemParams);
 
-            // Assert
-            Assert.IsType<OkObjectResult>(result);
-        }
+        //    // Assert
+        //    Assert.IsType<OkObjectResult>(result);
+        //}
 
         [Fact]
         public async void GetMaxPriceForItem_ReturnOk()
@@ -87,51 +87,51 @@ namespace ItemsApp.Tests
             Assert.IsType<OkObjectResult>(result);
         }
 
-        [Fact]
-        public async void CreateItem_ReturnsBadRequest()
-        {
-            // Arrange
-            var item = new ItemForCreationDto()
-            {
-                ItemName="Item 89"
-            };
-            controller.ModelState.AddModelError("Cost", "Required");
+        //[Fact]
+        //public async void CreateItem_ReturnsBadRequest()
+        //{
+        //    // Arrange
+        //    var item = new ItemForCreationDto()
+        //    {
+        //        ItemName="Item 89"
+        //    };
+        //    controller.ModelState.AddModelError("Cost", "Required");
 
-            // Act
-            var badResponse = await controller.CreateItem(item);
+        //    // Act
+        //    var badResponse = await controller.CreateItem(item);
 
-            // Assert
-            Assert.IsType<BadRequestResult>(badResponse);
-        }
-
-
-        [Fact]
-        public async void CreateItem_ReturnOk()
-        {
-            // Arrange
-            var item = new ItemForCreationDto()
-            {
-                ItemName = "Item 89",
-                Cost = 12
-            };
-
-            // Act
-            var createdResponse = await controller.CreateItem(item) as OkObjectResult;
-
-            // Assert
-            Assert.IsType<OkObjectResult>(createdResponse);
-            Assert.Equal((int)HttpStatusCode.OK, createdResponse.StatusCode);
-        }
+        //    // Assert
+        //    Assert.IsType<BadRequestResult>(badResponse);
+        //}
 
 
-        [Fact]
-        public async void DeleteItem_ReturnOk()
-        {
-            // Act
-            var okResponse = await controller.DeleteItem(3);
-            // Assert
-            Assert.IsType<OkResult>(okResponse);
-        }
+        //[Fact]
+        //public async void CreateItem_ReturnOk()
+        //{
+        //    // Arrange
+        //    var item = new ItemForCreationDto()
+        //    {
+        //        ItemName = "Item 89",
+        //        Cost = 12
+        //    };
+
+        //    // Act
+        //    var createdResponse = await controller.CreateItem(item) as OkObjectResult;
+
+        //    // Assert
+        //    Assert.IsType<OkObjectResult>(createdResponse);
+        //    Assert.Equal((int)HttpStatusCode.OK, createdResponse.StatusCode);
+        //}
+
+
+        //[Fact]
+        //public async void DeleteItem_ReturnOk()
+        //{
+        //    // Act
+        //    var okResponse = await controller.DeleteItem(3);
+        //    // Assert
+        //    Assert.IsType<OkResult>(okResponse);
+        //}
         [Fact]
         public async void DeleteItem_ReturnsBadRequest()
         {
