@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ItemService } from '../services/item.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-home',
@@ -26,16 +27,18 @@ export class HomeComponent implements OnInit {
   itemNames: string[];
   constructor(private formBuilder: FormBuilder, private modalService: BsModalService,
     private route: ActivatedRoute, private itemService: ItemService,
-    private alertifyService: AlertifyService) { }
+    private alertifyService: AlertifyService, private spinnerService: NgxSpinnerService) { }
 
   ngOnInit() {
     this.route.data.subscribe((data) => {
-      this.items = data['items'].result;
-      this.pagination = data['items'].pagination;
+      this.items = data.items.result;
+      this.pagination = data.items.pagination;
+      this.spinnerService.hide('spAllItems');
     });
 
     this.createItemForm();
     this.getItemNames();
+
   }
 
 
@@ -77,9 +80,11 @@ export class HomeComponent implements OnInit {
 
   getItems() {
     this.showAllItems = true;
+    this.spinnerService.show('spAllItems');
     this.itemService.getItems(this.pagination.currentPage, this.pagination.itemsPerPage).subscribe((res: PaginatedResult<Item[]>) => {
       this.items = res.result;
       this.pagination = res.pagination;
+      this.spinnerService.hide('spAllItems');
     }, error => {
       this.alertifyService.error(error);
     });
@@ -87,10 +92,12 @@ export class HomeComponent implements OnInit {
 
   getMaxPricesForItems() {
     this.showAllItems = false;
+    this.spinnerService.show('spAllItems');
     this.itemService.getMaxPricesForItems(this.pagination.currentPage,
       this.pagination.itemsPerPage).subscribe((res: PaginatedResult<Item[]>) => {
         this.items = res.result;
         this.pagination = res.pagination;
+        this.spinnerService.hide('spAllItems');
       }, error => {
         this.alertifyService.error(error);
       });
@@ -132,7 +139,9 @@ export class HomeComponent implements OnInit {
   saveItem() {
     if (this.itemForm.valid) {
       if (this.isEditMode) {
+        this.spinnerService.show('spAddEditItem');
         this.itemService.updateItem(this.selectedItem.id, this.selectedItem).subscribe(() => {
+          this.spinnerService.hide('spAddEditItem');
           this.alertifyService.success('Item Updated Successfully');
           this.addEditModalRef.hide();
         }, error => {
@@ -143,7 +152,9 @@ export class HomeComponent implements OnInit {
         });
       }
       else {
+        this.spinnerService.show('spAddEditItem');
         this.itemService.createItem(this.selectedItem).subscribe(() => {
+          this.spinnerService.hide('spAddEditItem');
           this.alertifyService.success('Item Created Successfully');
           this.addEditModalRef.hide();
         }, error => {

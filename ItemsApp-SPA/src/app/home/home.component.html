@@ -1,4 +1,5 @@
 <div class="container mt-3">
+    <ngx-spinner name="spAllItems" [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>
     <div class="row">
         <div class="col-md-4">
             <div class="btn-group mb-2">
@@ -62,6 +63,7 @@
 
 
 <ng-template #templateAddEdit>
+    <ngx-spinner name="spAddEditItem" [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>
     <div class="modal-header">
         <h4 class="modal-title pull-left">{{isEditMode?'Edit':'New'}} Item</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="addEditModalRef.hide()">

@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ModalModule} from 'ngx-bootstrap/modal';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { NgxSpinnerModule } from "ngx-spinner";
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './home/home.component';
@@ -28,7 +29,8 @@ import { ListsResolver } from './resolvers/lists.resolver';
       RouterModule.forRoot(appRoutes),
       PaginationModule.forRoot(),
       ModalModule.forRoot(),
-      ButtonsModule
+      ButtonsModule,
+      NgxSpinnerModule
    ],
    providers: [
       ListsResolver
