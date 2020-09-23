@@ -55,14 +55,13 @@ namespace ItemsApp.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateItem(int id, ItemForCreationDto itemForCreationDto)
         {
-          
+
             var item = await itemRepository.GetItem(id);
             mapper.Map(itemForCreationDto, item);
 
-            if (await itemRepository.SaveAll())
-                return Ok();
+            await itemRepository.SaveAll();
+            return Ok();
 
-            throw new Exception($"Updating item {id} failed on save.");
         }
 
         [HttpGet("GetMaxPricesForItems")]
@@ -98,7 +97,7 @@ namespace ItemsApp.API.Controllers
             var items = await itemRepository.GetAllItems(itemParams);
 
             var itemsToReturn = mapper.Map<IEnumerable<ItemForListDto>>(items);
-            
+
             Response.AddPagination(items.CurrentPage, items.PageSize, items.TotalCount, items.TotalPages);
             return Ok(itemsToReturn);
         }
