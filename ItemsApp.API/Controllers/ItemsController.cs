@@ -70,7 +70,7 @@ namespace ItemsApp.API.Controllers
         {
             var items = await itemRepository.GetMaxPricesForItems(itemParams);
 
-            var itemsToReturn = mapper.Map<IEnumerable<ItemForListDto>>(items);
+            var itemsToReturn = mapper.Map<IEnumerable<ItemToReturnDto>>(items);
 
             Response.AddPagination(items.CurrentPage, items.PageSize, items.TotalCount, items.TotalPages);
             return Ok(itemsToReturn);
